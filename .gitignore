@@ -1,0 +1,17 @@
+.cpcache/
+.idea/
+*.iml
+.nrepl-port
+*.class
+*.log
+*.tmp
+target/
+.lein-repl-history
+.lein-figwheel-repl-history
+lib/
+generated/
+out/
+*.js
+*.js.map
+.DS_Store
+Thumbs.db
