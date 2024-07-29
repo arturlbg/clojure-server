@@ -3,15 +3,45 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http :as http]))
 
+(defn response
+  [status body]
+  {:status status
+   :body body
+   :headers nil})
+
+(def ok (partial response 200))
+
+(def get-todo-handler
+  {:name :echo
+   :enter
+   (fn [context]
+     (let [request (:request context)
+           response (ok context)]
+       (assoc context :response response)))})
+
+(comment
+  [{:id (random-uuid)
+    :name "My todo list"
+    :items [{:io (random-uuid)
+             :name "Make my dinner"
+             :status :created}]}
+   {:id (random-uuid)
+    :name "Empty todo list"
+    :items []}])
+
 (defn respond-hello [request]
   {:status 200 :body "Hello, world!"})
 
 (def routes
   (route/expand-routes
-    #{["/greet" :get respond-hello :route-name :greet]}))
+    #{["/greet" :get respond-hello :route-name :greet]
+      ["/todo/:todo-id" :get get-todo-handler :route-name :get-todo]}))
+
 
 (defrecord PedestalComponent
-  [config example-component]
+  [config
+   example-component
+   in-memory-state-component]
   component/Lifecycle
   (start [component]
     (println ";; Starting PedestalComponent")
