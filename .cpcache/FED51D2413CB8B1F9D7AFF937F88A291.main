@@ -1,4 +1,0 @@
--e
-(require, 'dev)
--e
-(in-ns, 'dev)
